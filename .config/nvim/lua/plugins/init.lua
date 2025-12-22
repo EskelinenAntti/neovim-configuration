@@ -20,7 +20,7 @@ vim.keymap.set("n", "<leader>b", fzfLua.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>d", fzfLua.diagnostics_workspace, { desc = "Telescope diagnostics" })
 vim.keymap.set("n", "<leader>r", fzfLua.lsp_references, { desc = "Telescope LSP references" })
 
-vim.cmd.colorscheme("retrobox")
+vim.cmd.colorscheme("gruvbox-material")
 require("omarchy-theme-loader").setup({
 	themes = {
 		["tokyo-night"] = { colorscheme = "slate" },

@@ -5,6 +5,7 @@ return {
   ["nvim-lspconfig"] = "f1237a8b3c243608a7116fa1ad216c441d7c2264",
   ["nvim-treesitter"] = "c5871d9d870c866fea9f271f1a3b3f29049a4793",
   ["nvim-treesitter-textobjects"] = "63c4dce4a56312ef1bdeafd16bdefa008fcc950a",
+  ["gruvbox-material"] = "cc47341018320a2c82262958a1af889e5eeacd6e",
   ["omarchy-theme-loader.nvim"] = "e84f4150194cf4e1cc2c09958eda441b2bf30da3",
   ["vim-surround"] = "3d188ed2113431cf8dac77be61b842acb64433d9"
 }
