@@ -30,8 +30,6 @@ add("EskelinenAntti/omarchy-theme-loader.nvim")
 add("ibhagwan/fzf-lua")
 add({
 	source = "nvim-treesitter/nvim-treesitter",
-	checkout = "main",
-	monitor = "main",
 	hook = {
 		post_checkout = function()
 			vim.cmd("TSUpdate")
