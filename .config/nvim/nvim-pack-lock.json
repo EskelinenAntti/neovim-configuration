@@ -1,0 +1,33 @@
+{
+  "plugins": {
+    "conform.nvim": {
+      "rev": "8314f4c9e205e7f30b62147069729f9a1227d8bf",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "fzf-lua": {
+      "rev": "19d7020b700879759d7f834fc717dde086f673a7",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gruvbox-material": {
+      "rev": "cc47341018320a2c82262958a1af889e5eeacd6e",
+      "src": "https://github.com/sainnhe/gruvbox-material"
+    },
+    "nvim-lspconfig": {
+      "rev": "ac04ec3c2af08e9821b4eb64ede86072b9b213bf",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "c6dd314086f7b471bf6c9110092a94ce1c06d220",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-treesitter-textobjects": {
+      "rev": "ecd03f5811eb5c66d2fa420b79121b866feecd82",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+      "version": "'main'"
+    },
+    "vim-surround": {
+      "rev": "3d188ed2113431cf8dac77be61b842acb64433d9",
+      "src": "https://github.com/tpope/vim-surround"
+    }
+  }
+}

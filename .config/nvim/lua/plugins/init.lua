@@ -1,7 +1,24 @@
-require("plugins.mini-deps")
+local hooks = function(ev)
+	local name, kind = ev.data.spec.name, ev.data.kind
+	if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
+		if not ev.data.active then
+			vim.cmd.packadd("nvim-treesitter")
+		end
+		vim.cmd("TSUpdate")
+	end
+end
+vim.api.nvim_create_autocmd("PackChanged", { callback = hooks })
 
-local deps = require("mini.deps")
-deps.snap_load()
+vim.pack.add({
+	"https://github.com/sainnhe/gruvbox-material",
+	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/tpope/vim-surround",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/ibhagwan/fzf-lua",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
+})
+
 require("plugins.treesitter")
 require("plugins.lsp")
 require("plugins.formatter")
@@ -20,25 +37,8 @@ vim.keymap.set("n", "<leader>b", fzfLua.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>d", fzfLua.diagnostics_workspace, { desc = "Telescope diagnostics" })
 vim.keymap.set("n", "<leader>r", fzfLua.lsp_references, { desc = "Telescope LSP references" })
 
+vim.g.gruvbox_material_transparent_background = 1
 vim.cmd.colorscheme("gruvbox-material")
-require("omarchy-theme-loader").setup({
-	themes = {
-		["tokyo-night"] = { colorscheme = "slate" },
-		["catppuccin"] = { colorscheme = "blue" },
-		["everforest"] = { colorscheme = "desert" },
-		["gruvbox"] = { colorscheme = "retrobox" },
-		["osaka-jade"] = { colorscheme = "slate" },
-		["kanagawa"] = { colorscheme = "slate" },
-		["nord"] = { colorscheme = "blue" },
-		["matte-black"] = { colorscheme = "koehler" },
-		["ristretto"] = { colorscheme = "koehler" },
-		["flexoki-light"] = { colorscheme = "morning" },
-		["rose-pine"] = { colorscheme = "morning" },
-		["catppuccin-latte"] = { colorscheme = "delek" },
-	},
-})
-
-require("omarchy-theme-loader.transparency").set_transparent_background()
 
 vim.api.nvim_create_user_command("Today", function()
 	require("plugins.notes").open_daily_note()
