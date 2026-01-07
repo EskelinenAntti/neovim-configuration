@@ -9,7 +9,9 @@ local language_servers = {
 	"kotlin_lsp",
 	"gopls",
 	"lua_ls",
-	"json_ls",
+	"jsonls",
+	"html",
+	"cssls",
 	"yamlls",
 	"pyright",
 }
