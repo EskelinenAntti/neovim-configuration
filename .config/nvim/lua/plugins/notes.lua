@@ -49,4 +49,16 @@ M.open_tomorrow = function()
 	open_daily_at_offset(1)
 end
 
+vim.api.nvim_create_user_command("Today", function()
+	M.open_daily_note()
+end, {})
+
+vim.api.nvim_create_user_command("Yesterday", function()
+	M.open_yesterday()
+end, {})
+
+vim.api.nvim_create_user_command("Tomorrow", function()
+	M.open_tomorrow()
+end, {})
+
 return M

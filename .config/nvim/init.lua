@@ -16,8 +16,6 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard:append("unnamedplus")
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { desc = "Open file explorer" })
-vim.keymap.set("t", "<C-w>N", [[<C-\><C-n>]], { desc = "Enter normal mode in terminal" })
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 vim.keymap.set("n", "<leader>g", function()
 	vim.cmd.terminal("lazygit")
 	vim.cmd("startinsert")
