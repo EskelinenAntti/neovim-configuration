@@ -15,6 +15,8 @@ vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
+vim.opt.list = true
+vim.opt.listchars:append({ trail = "_" })
 vim.opt.clipboard:append("unnamedplus")
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { desc = "Open file explorer" })
 vim.keymap.set("n", "<leader>g", function()
