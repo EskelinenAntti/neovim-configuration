@@ -14,6 +14,7 @@ vim.opt.softtabstop = -1
 vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.hlsearch = false
 vim.opt.clipboard:append("unnamedplus")
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>", { desc = "Open file explorer" })
 vim.keymap.set("n", "<leader>g", function()
