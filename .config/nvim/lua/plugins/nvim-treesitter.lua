@@ -40,6 +40,6 @@ end
 
 register_text_object_keymap("f", "function")
 register_text_object_keymap("b", "block")
-register_text_object_keymap("s", "class")
+register_text_object_keymap("t", "class")
 register_text_object_keymap("c", "comment")
-register_text_object_keymap("p", "parameter")
+register_text_object_keymap("a", "parameter")
