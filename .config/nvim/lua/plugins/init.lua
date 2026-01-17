@@ -20,6 +20,17 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
 })
 
+vim.api.nvim_create_user_command("CleanPlugins", function()
+	vim.pack.del(vim.iter(vim.pack.get())
+		:filter(function(x)
+			return not x.active
+		end)
+		:map(function(x)
+			return x.spec.name
+		end)
+		:totable())
+end, { desc = "Delete inactive plugins" })
+
 require("plugins.nvim-treesitter")
 require("plugins.nvim-lspconfig")
 require("plugins.conform")
