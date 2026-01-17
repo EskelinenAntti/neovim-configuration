@@ -16,7 +16,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
 vim.opt.list = true
-vim.opt.listchars:append({ trail = "_" })
+vim.opt.listchars:append({ trail = "_", tab = "  " })
 vim.opt.clipboard:append("unnamedplus")
 vim.keymap.set("n", "<leader>g", function()
 	vim.cmd.terminal("lazygit")
