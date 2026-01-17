@@ -17,6 +17,7 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/stevearc/oil.nvim",
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
 })
 
@@ -37,3 +38,4 @@ require("plugins.conform")
 require("plugins.fzf-lua")
 require("plugins.notes")
 require("plugins.gruvbox-material")
+require("plugins.oil-nvim")
