@@ -7,3 +7,5 @@ require("oil").setup({
 	},
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open file explorer" })
+
+vim.g.loaded_netrwPlugin = 1
