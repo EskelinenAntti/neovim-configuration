@@ -18,6 +18,8 @@ vim.opt.hlsearch = false
 vim.opt.list = true
 vim.opt.listchars:append({ trail = "_", tab = "  " })
 vim.opt.clipboard:append("unnamedplus")
+vim.jumpoptions = "stack"
+
 vim.keymap.set("n", "<leader>g", function()
 	vim.cmd.terminal("lazygit")
 	vim.cmd("startinsert")
