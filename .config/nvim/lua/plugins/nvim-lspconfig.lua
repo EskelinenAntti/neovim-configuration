@@ -4,16 +4,17 @@
 --     3. Add the name of it (the name of the file without .lua extension) to below list.
 --]]
 local language_servers = {
-	"ts_ls",
-	"tailwindcss",
-	"kotlin_lsp",
-	"gopls",
-	"lua_ls",
-	"jsonls",
-	"html",
+	"bashls",
 	"cssls",
-	"yamlls",
+	"gopls",
+	"html",
+	"jsonls",
+	"kotlin_lsp",
+	"lua_ls",
 	"pyright",
+	"tailwindcss",
+	"ts_ls",
+	"yamlls",
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {
