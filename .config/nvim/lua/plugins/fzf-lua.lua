@@ -8,6 +8,8 @@ fzfLua.setup({
 vim.keymap.set("n", "<leader>f", fzfLua.files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader><leader>", fzfLua.files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader>/", fzfLua.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("v", "<leader>/", fzfLua.grep_visual, { desc = "Telescope search visual" })
+vim.keymap.set("n", "<leader>*", fzfLua.grep_cword, { desc = "Telescope search cword" })
 vim.keymap.set("n", "<leader>b", fzfLua.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>d", fzfLua.diagnostics_workspace, { desc = "Telescope diagnostics" })
 vim.keymap.set("n", "<leader>r", fzfLua.lsp_references, { desc = "Telescope LSP references" })
