@@ -5,6 +5,10 @@ require("oil").setup({
 			return name == ".."
 		end,
 	},
+	confirmation = {
+		border = "rounded",
+	},
+	skip_confirm_for_simple_edits = true,
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open file explorer" })
 
