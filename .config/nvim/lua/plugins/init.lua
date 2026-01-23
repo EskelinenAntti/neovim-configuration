@@ -32,6 +32,10 @@ vim.api.nvim_create_user_command("CleanPlugins", function()
 		:totable())
 end, { desc = "Delete inactive plugins" })
 
+vim.api.nvim_create_user_command("UpdatePlugins", function()
+	vim.pack.update()
+end, { desc = "Update plugins" })
+
 require("plugins.nvim-treesitter")
 require("plugins.nvim-lspconfig")
 require("plugins.conform")
