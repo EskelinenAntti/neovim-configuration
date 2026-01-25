@@ -21,7 +21,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
 })
 
-vim.api.nvim_create_user_command("CleanPlugins", function()
+vim.api.nvim_create_user_command("SyncPlugins", function()
 	vim.pack.del(vim.iter(vim.pack.get())
 		:filter(function(x)
 			return not x.active
@@ -30,6 +30,7 @@ vim.api.nvim_create_user_command("CleanPlugins", function()
 			return x.spec.name
 		end)
 		:totable())
+	vim.pack.update(nil, { target = "lockfile" })
 end, { desc = "Delete inactive plugins" })
 
 vim.api.nvim_create_user_command("UpdatePlugins", function()
