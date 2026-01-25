@@ -5,7 +5,6 @@ require("nvim-treesitter")
 		"html",
 		"go",
 		"markdown",
-		"markdown_inline",
 		"json",
 		"yaml",
 		"python",
