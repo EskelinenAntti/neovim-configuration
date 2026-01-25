@@ -19,7 +19,7 @@ for _, installed in ipairs(require("nvim-treesitter.config").get_installed()) do
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = ts_filetypes,
+	pattern = vim.list.unique(ts_filetypes),
 	callback = function()
 		vim.treesitter.start()
 	end,
