@@ -25,9 +25,4 @@ vim.keymap.set("n", "<leader>g", function()
 	vim.cmd("startinsert")
 end, { desc = "Open lazygit" })
 
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-	pattern = "*",
-	command = "silent! write",
-})
-
 require("plugins")
