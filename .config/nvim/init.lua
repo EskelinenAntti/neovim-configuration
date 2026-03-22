@@ -20,9 +20,4 @@ vim.opt.listchars:append({ trail = "_", tab = "  " })
 vim.opt.clipboard:append("unnamedplus")
 vim.jumpoptions = "stack"
 
-vim.keymap.set("n", "<leader>g", function()
-	vim.cmd.terminal("lazygit")
-	vim.cmd("startinsert")
-end, { desc = "Open lazygit" })
-
 require("plugins")
