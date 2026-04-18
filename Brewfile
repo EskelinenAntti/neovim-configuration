@@ -18,6 +18,7 @@ brew "vscode-langservers-extracted"
 brew "yaml-language-server"
 brew "pyright"
 brew "metals"
+brew "ruby-lsp"
 
 # Formatters
 brew "stylua"
