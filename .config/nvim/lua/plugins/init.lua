@@ -16,9 +16,7 @@ vim.pack.add({
 	"https://github.com/tpope/vim-surround",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/oil.nvim",
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
 })
 
 vim.api.nvim_create_user_command("CleanPlugins", function()
@@ -36,7 +34,6 @@ vim.api.nvim_create_user_command("UpdatePlugins", function()
 	vim.pack.update()
 end, { desc = "Update plugins" })
 
-require("plugins.nvim-treesitter")
 require("plugins.nvim-lspconfig")
 require("plugins.conform")
 require("plugins.fzf-lua")
