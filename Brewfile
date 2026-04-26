@@ -10,7 +10,7 @@ brew "typescript-language-server"
 brew "tailwindcss-language-server"
 brew "bash-language-server"
 
-brew "JetBrains/utils/kotlin-lsp" if OS.mac?
+brew "EskelinenAntti/cli/kotlin-lsp" if OS.mac?
 
 brew "gopls"
 brew "lua-language-server"
