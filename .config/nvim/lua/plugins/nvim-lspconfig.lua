@@ -9,12 +9,13 @@ local language_servers = {
 	"gopls",
 	"html",
 	"jsonls",
-	"kotlin_lsp",
 	"lua_ls",
 	"pyright",
 	"tailwindcss",
 	"ts_ls",
 	"yamlls",
+	"metals",
+	"ruby_lsp",
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {
