@@ -3,7 +3,6 @@ brew "neovim", args: ["HEAD"]
 # Tools
 brew "ripgrep"
 brew "fd"
-brew "tree-sitter-cli"
 
 # Language servers
 brew "typescript-language-server"
