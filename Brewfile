@@ -1,6 +1,4 @@
-brew "neovim", args: ["HEAD"]
-
-# Tools
+brew "neovim"
 brew "ripgrep"
 brew "fd"
 
@@ -15,10 +13,5 @@ brew "yaml-language-server"
 brew "pyright"
 brew "metals"
 brew "ruby-lsp"
-
-# Formatters
-brew "stylua"
-brew "prettier"
-brew "go"
 
 brew "stow"
