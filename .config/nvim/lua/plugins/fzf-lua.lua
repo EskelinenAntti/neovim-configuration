@@ -5,6 +5,7 @@ fzfLua.setup({
 	},
 	grep = {
 		rg_opts = "--hidden --line-number --column --no-heading --smart-case --color=never --glob=!node_modules/* --glob=!.git/* --glob=!build/* --glob=!package-lock.json",
+		formatter = "path.filename_first",
 	},
 })
 
