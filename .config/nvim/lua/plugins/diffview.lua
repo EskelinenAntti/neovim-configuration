@@ -5,12 +5,6 @@ require("diffview").setup({
 	},
 })
 
-local diffview = require("diffview.lib")
 vim.keymap.set("n", "<leader>g", function()
-	local view = diffview.get_current_view()
-	if view then
-		vim.cmd("DiffviewClose")
-	else
-		vim.cmd("DiffviewOpen")
-	end
+	vim.cmd("DiffviewOpen")
 end, { desc = "Toggle Diffview" })
