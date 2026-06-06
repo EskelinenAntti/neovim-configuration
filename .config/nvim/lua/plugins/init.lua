@@ -17,6 +17,7 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/sindrets/diffview.nvim",
 })
 
 vim.api.nvim_create_user_command("CleanPlugins", function()
@@ -39,3 +40,4 @@ require("plugins.conform")
 require("plugins.fzf-lua")
 require("plugins.gruvbox-material")
 require("plugins.oil-nvim")
+require("plugins.diffview")
