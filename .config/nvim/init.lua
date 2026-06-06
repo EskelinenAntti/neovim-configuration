@@ -19,5 +19,6 @@ vim.opt.list = true
 vim.opt.listchars:append({ trail = "_", tab = "  " })
 vim.opt.clipboard:append("unnamedplus")
 vim.jumpoptions = "stack"
+vim.opt.autoread = true
 
 require("plugins")
