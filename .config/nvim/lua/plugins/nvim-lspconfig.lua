@@ -16,6 +16,7 @@ local language_servers = {
 	"yamlls",
 	"metals",
 	"ruby_lsp",
+	"kotlin_lsp",
 }
 
 vim.api.nvim_create_autocmd("LspAttach", {
