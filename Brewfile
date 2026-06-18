@@ -14,5 +14,6 @@ brew "yaml-language-server"
 brew "pyright"
 brew "metals"
 brew "ruby-lsp"
+brew "JetBrains/utils/kotlin-lsp"
 
 brew "stow"
