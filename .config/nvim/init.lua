@@ -17,8 +17,10 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = false
 vim.opt.list = true
 vim.opt.listchars:append({ trail = "_", tab = "  " })
-vim.opt.clipboard:append("unnamedplus")
 vim.jumpoptions = "stack"
 vim.opt.autoread = true
+
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
 
 require("plugins")
