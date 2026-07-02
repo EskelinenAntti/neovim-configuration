@@ -1,6 +1,6 @@
 # Neovim configuration
 
-This is my modest Neovim configuration.
+This is my minimal Neovim configuration.
 
 It includes:
 
