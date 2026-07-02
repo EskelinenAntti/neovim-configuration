@@ -11,13 +11,12 @@ It includes:
 
 ## Installation
 
-The setup is intended for macOS and uses Homebrew and GNU Stow:
+The setup is intended for macOS and uses Homebrew:
 
 ```sh
-git clone https://github.com/EskelinenAntti/neovim-configuration.git
-cd neovim-configuration
-make
+git clone https://github.com/EskelinenAntti/neovim-configuration.git ~/.config/nvim
+cd ~/.config/nvim
+brew bundle
 ```
 
-`make` installs dependencies listed in the `Brewfile` and stows the Neovim
-configuration into `~/.config/nvim`.
+Install neovim and other dependencies with `brew bundle`.

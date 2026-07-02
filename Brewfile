@@ -15,5 +15,3 @@ brew "pyright"
 brew "metals"
 brew "ruby-lsp"
 brew "JetBrains/utils/kotlin-lsp"
-
-brew "stow"
