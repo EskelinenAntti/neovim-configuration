@@ -24,4 +24,6 @@ vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
 
 require("vim._core.ui2").enable()
 
+require("pack")
+require("github-url")
 require("plugins")

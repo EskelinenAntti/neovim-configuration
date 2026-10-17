@@ -1,3 +1,5 @@
+vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
+
 --[[ List of enabled language servers. In order to add new languages, you need to do the following:
 --     1. Find and install the language server for the language.
 --     2. Find the configuration for the language server in nvim-lspconfig in https://github.com/neovim/nvim-lspconfig/tree/master/lsp

@@ -1,43 +1,6 @@
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(ev)
-		local name, kind = ev.data.spec.name, ev.data.kind
-		if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
-			if not ev.data.active then
-				vim.cmd.packadd("nvim-treesitter")
-			end
-			vim.cmd("TSUpdate")
-		end
-	end,
-})
-
-vim.pack.add({
-	"https://github.com/webhooked/kanso.nvim",
-	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/tpope/vim-surround",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/EskelinenAntti/omarchy-theme.nvim",
-})
-
-vim.api.nvim_create_user_command("CleanPlugins", function()
-	vim.pack.del(vim.iter(vim.pack.get())
-		:filter(function(x)
-			return not x.active
-		end)
-		:map(function(x)
-			return x.spec.name
-		end)
-		:totable())
-end, { desc = "Delete inactive plugins" })
-
-vim.api.nvim_create_user_command("UpdatePlugins", function()
-	vim.pack.update()
-end, { desc = "Update plugins" })
-
 require("plugins.nvim-lspconfig")
 require("plugins.conform")
 require("plugins.fzf-lua")
 require("plugins.theme")
 require("plugins.oil-nvim")
-require("plugins.github-url")
+require("plugins.gitsigns")

@@ -1,3 +1,5 @@
+vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
+
 require("conform").setup({
 	format_on_save = {},
 	--[[ List of formatters by filetype. In order to add new formatters, you need to do the following:

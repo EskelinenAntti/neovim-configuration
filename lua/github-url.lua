@@ -2,7 +2,7 @@ local function repo()
 	return vim.trim(vim.fn.system({ "gh", "repo", "view", "--json", "url", "-q", ".url" }))
 end
 
-local function brand()
+local function branch()
 	return vim.trim(vim.fn.system({ "git", "branch", "--show-current" }))
 end
 
@@ -21,7 +21,7 @@ local function line_range(first_line, last_line)
 end
 
 local function copy_github_url(first_line, last_line)
-	local url = ("%s/blob/%s/%s%s"):format(repo(), brand(), file(), line_range(first_line, last_line))
+	local url = ("%s/blob/%s/%s%s"):format(repo(), branch(), file(), line_range(first_line, last_line))
 	return vim.fn.setreg("+", url)
 end
 
