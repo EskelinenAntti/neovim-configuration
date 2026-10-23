@@ -28,6 +28,10 @@
       "rev": "8fee01905d81c642103bad4a239803d0e15ec2e6",
       "src": "https://github.com/EskelinenAntti/omarchy-theme.nvim"
     },
+    "render-markdown.nvim": {
+      "rev": "8e8795368391036643b622875a6da6a51bcd33f4",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
     "vim-surround": {
       "rev": "3d188ed2113431cf8dac77be61b842acb64433d9",
       "src": "https://github.com/tpope/vim-surround"
