@@ -3,12 +3,15 @@ vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" })
 local fzfLua = require("fzf-lua")
 
 fzfLua.setup({
-	files = {
-		formatter = "path.filename_first",
+	winopts = {
+		preview = {
+			layout = "vertical",
+			vertical = "down:50%",
+			hidden = false,
+		},
 	},
 	grep = {
 		rg_opts = "--hidden --line-number --column --no-heading --smart-case --color=never --glob=!node_modules/* --glob=!.git/* --glob=!build/* --glob=!package-lock.json",
-		formatter = "path.filename_first",
 	},
 	keymap = {
 		fzf = {
