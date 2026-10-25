@@ -12,10 +12,6 @@
       "rev": "fd780920613e541cbdfac41bf711583ed49f9249",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
-    "kanso.nvim": {
-      "rev": "1afbbb449aa0254823dbe1932e3cbb51886ff9fe",
-      "src": "https://github.com/webhooked/kanso.nvim"
-    },
     "nvim-lspconfig": {
       "rev": "229b79051b380377664edc4cbd534930154921a1",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -32,9 +28,9 @@
       "rev": "8e8795368391036643b622875a6da6a51bcd33f4",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
-    "vim-surround": {
-      "rev": "3d188ed2113431cf8dac77be61b842acb64433d9",
-      "src": "https://github.com/tpope/vim-surround"
+    "tokyonight.nvim": {
+      "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "src": "https://github.com/folke/tokyonight.nvim"
     }
   }
 }
