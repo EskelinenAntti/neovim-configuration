@@ -72,12 +72,4 @@ vim.api.nvim_create_user_command("Review", function(opts)
 end, {
 	nargs = "?",
 	desc = "Review local or PR changes",
-	complete = function(lead, line)
-		if line:match("^%s*Review%s+%S+%s+") then
-			return {}
-		end
-		return vim.tbl_filter(function(choice)
-			return vim.startswith(choice, lead)
-		end, { "local", "pr" })
-	end,
 })
