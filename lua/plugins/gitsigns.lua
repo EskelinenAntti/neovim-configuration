@@ -6,6 +6,7 @@ gitsigns.setup({
 })
 
 vim.keymap.set("n", "<leader>g", gitsigns.preview_hunk_inline)
+vim.keymap.set("n", "<leader>G", gitsigns.reset_hunk, { desc = "Reset hunk" })
 
 local function git(cwd, args)
 	local command = { "git", "-C", cwd }
