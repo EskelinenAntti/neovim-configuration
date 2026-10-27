@@ -34,7 +34,7 @@ end
 
 local function review_pr(root)
 	if vim.fn.executable("gh") ~= 1 then
-		review_error("gh not found")
+		review_error("gh cli not found")
 		return
 	end
 
