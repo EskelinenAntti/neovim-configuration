@@ -45,7 +45,7 @@ end
 
 local function review_pr(root)
 	if vim.fn.executable("gh") ~= 1 then
-		vim.notify("Review: GitHub CLI (gh) is required; install it and run gh auth login", vim.log.levels.ERROR)
+		vim.notify("Review: gh not found", vim.log.levels.ERROR)
 		return
 	end
 
@@ -68,7 +68,7 @@ local function review_pr(root)
 			or type(pr.headRefOid) ~= "string"
 			or not pr.headRefOid:match("^%x+$")
 		then
-			vim.notify("Review: gh returned invalid pull request metadata", vim.log.levels.ERROR)
+			vim.notify("Review: invalid PR data from gh", vim.log.levels.ERROR)
 			return
 		end
 
@@ -91,7 +91,7 @@ local function review_pr(root)
 		-- Fetch from the PR's target repository, including when the checkout is a fork.
 		local repository = type(pr.url) == "string" and pr.url:match("^(https://[^/]+/[^/]+/[^/]+)/pull/%d+$")
 		if not repository then
-			vim.notify("Review: gh returned an invalid pull request URL", vim.log.levels.ERROR)
+			vim.notify("Review: invalid PR URL", vim.log.levels.ERROR)
 			return
 		end
 		vim.system({ "git", "-C", root, "fetch", "--no-tags", "--", repository, pr.baseRefOid, pr.headRefOid }, {
@@ -109,7 +109,7 @@ end
 vim.api.nvim_create_user_command("Review", function(opts)
 	local mode = opts.fargs[1] or "pr"
 	if (mode ~= "local" and mode ~= "branch" and mode ~= "pr") or (mode ~= "branch" and opts.fargs[2]) or #opts.fargs > 2 then
-		vim.notify("Usage: Review [pr|local|branch] [base_branch]", vim.log.levels.ERROR)
+		vim.notify("Usage: Review [pr|local|branch [base_branch]]", vim.log.levels.ERROR)
 		return
 	end
 
@@ -129,7 +129,7 @@ vim.api.nvim_create_user_command("Review", function(opts)
 	if mode == "branch" then
 		local branch = opts.fargs[2] or default_branch(root)
 		if not branch then
-			vim.notify("Review: cannot detect default branch; use :Review branch <base_branch>", vim.log.levels.ERROR)
+			vim.notify("Review: no default branch; use :Review branch <base_branch>", vim.log.levels.ERROR)
 			return
 		end
 		local revision
@@ -148,7 +148,7 @@ vim.api.nvim_create_user_command("Review", function(opts)
 	review_base(base)
 end, {
 	nargs = "*",
-	desc = "Review PR (default), local, or branch changes in the Gitsigns quickfix list",
+	desc = "Review PR, local, or branch changes",
 	complete = function(lead, line)
 		local args = vim.split(line, "%s+", { trimempty = true })
 		local choices = {}
