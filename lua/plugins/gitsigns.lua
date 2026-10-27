@@ -23,7 +23,6 @@ local function git(cwd, args)
 end
 
 local function review_base(base)
-	-- The global base also applies to files that have not been opened yet.
 	gitsigns.change_base(base, true, function(change_err)
 		if change_err then
 			review_error(change_err)
@@ -33,35 +32,13 @@ local function review_base(base)
 	end)
 end
 
-local function review_pr_base(root, pr)
-	local base, err = git(root, { "merge-base", "--", pr.headRefOid, pr.baseRefOid })
-	if not base then
-		review_error(err ~= "" and err or "no merge base")
-		return
-	end
-	review_base(base)
-end
-
-local function fetch_pr(root, pr)
-	local repository = pr.url:gsub("/pull/%d+$", "")
-	vim.system({ "git", "-C", root, "fetch", "--no-tags", "--", repository, pr.baseRefOid, pr.headRefOid }, {
-		text = true,
-	}, vim.schedule_wrap(function(result)
-		if result.code ~= 0 then
-			review_error(vim.trim(result.stderr))
-			return
-		end
-		review_pr_base(root, pr)
-	end))
-end
-
 local function review_pr(root)
 	if vim.fn.executable("gh") ~= 1 then
 		review_error("gh not found")
 		return
 	end
 
-	vim.system({ "gh", "pr", "view", "--json", "baseRefOid,headRefOid,url" }, {
+	vim.system({ "gh", "pr", "view", "--json", "baseRefOid", "--jq", ".baseRefOid" }, {
 		cwd = root,
 		text = true,
 	}, vim.schedule_wrap(function(result)
@@ -69,13 +46,7 @@ local function review_pr(root)
 			review_error(vim.trim(result.stderr))
 			return
 		end
-		local pr = vim.json.decode(result.stdout)
-		local base = git(root, { "merge-base", "--", pr.headRefOid, pr.baseRefOid })
-		if base then
-			review_base(base)
-		else
-			fetch_pr(root, pr)
-		end
+		review_base(vim.trim(result.stdout))
 	end))
 end
 
