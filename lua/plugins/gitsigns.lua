@@ -8,6 +8,10 @@ gitsigns.setup({
 vim.keymap.set("n", "<leader>g", gitsigns.preview_hunk_inline)
 vim.keymap.set("n", "<leader>G", gitsigns.reset_hunk, { desc = "Reset hunk" })
 
+local function review_error(message)
+	vim.notify("Review: " .. tostring(message), vim.log.levels.ERROR)
+end
+
 local function git(cwd, args)
 	local command = { "git", "-C", cwd }
 	vim.list_extend(command, args)
@@ -30,87 +34,68 @@ local function default_branch(root)
 	end
 end
 
-local function review_base(base, message)
+local function review_base(base)
 	-- The global base also applies to files that have not been opened yet.
 	gitsigns.change_base(base, true, function(change_err)
 		if change_err then
-			vim.notify("Review: " .. tostring(change_err), vim.log.levels.ERROR)
+			review_error(change_err)
 			return
 		end
 		gitsigns.setqflist("all")
-		if message then
-			vim.notify(message)
-		end
 	end)
+end
+
+local function review_commits(root, source, target)
+	local base, err = git(root, { "merge-base", "--", source, target })
+	if not base then
+		review_error(err ~= "" and err or "no merge base")
+		return
+	end
+	review_base(base)
+end
+
+local function fetch_pr(root, pr)
+	local repository = pr.url:gsub("/pull/%d+$", "")
+	vim.system({ "git", "-C", root, "fetch", "--no-tags", "--", repository, pr.baseRefOid, pr.headRefOid }, {
+		text = true,
+	}, vim.schedule_wrap(function(result)
+		if result.code ~= 0 then
+			review_error(vim.trim(result.stderr))
+			return
+		end
+		review_commits(root, pr.headRefOid, pr.baseRefOid)
+	end))
 end
 
 local function review_pr(root)
 	if vim.fn.executable("gh") ~= 1 then
-		vim.notify("Review: gh not found", vim.log.levels.ERROR)
+		review_error("gh not found")
 		return
 	end
 
-	vim.system({ "gh", "pr", "view", "--json", "baseRefName,baseRefOid,headRefName,headRefOid,url" }, {
+	vim.system({ "gh", "pr", "view", "--json", "baseRefOid,headRefOid,url" }, {
 		cwd = root,
 		text = true,
 	}, vim.schedule_wrap(function(result)
 		if result.code ~= 0 then
-			vim.notify("Review: " .. vim.trim(result.stderr), vim.log.levels.ERROR)
+			review_error(vim.trim(result.stderr))
 			return
 		end
-		local ok, pr = pcall(vim.json.decode, result.stdout)
-		if
-			not ok
-			or type(pr) ~= "table"
-			or type(pr.baseRefName) ~= "string"
-			or type(pr.headRefName) ~= "string"
-			or type(pr.baseRefOid) ~= "string"
-			or not pr.baseRefOid:match("^%x+$")
-			or type(pr.headRefOid) ~= "string"
-			or not pr.headRefOid:match("^%x+$")
-		then
-			vim.notify("Review: invalid PR data from gh", vim.log.levels.ERROR)
-			return
+		local pr = vim.json.decode(result.stdout)
+		local base = git(root, { "merge-base", "--", pr.headRefOid, pr.baseRefOid })
+		if base then
+			review_base(base)
+		else
+			fetch_pr(root, pr)
 		end
-
-		local function review()
-			local base, err = git(root, { "merge-base", pr.headRefOid, pr.baseRefOid })
-			if not base then
-				vim.notify("Review: " .. err, vim.log.levels.ERROR)
-				return
-			end
-			review_base(base, "Review: " .. pr.headRefName .. " -> " .. pr.baseRefName)
-		end
-
-		if git(root, { "cat-file", "-e", pr.baseRefOid .. "^{commit}" })
-			and git(root, { "cat-file", "-e", pr.headRefOid .. "^{commit}" })
-		then
-			review()
-			return
-		end
-
-		-- Fetch from the PR's target repository, including when the checkout is a fork.
-		local repository = type(pr.url) == "string" and pr.url:match("^(https://[^/]+/[^/]+/[^/]+)/pull/%d+$")
-		if not repository then
-			vim.notify("Review: invalid PR URL", vim.log.levels.ERROR)
-			return
-		end
-		vim.system({ "git", "-C", root, "fetch", "--no-tags", "--", repository, pr.baseRefOid, pr.headRefOid }, {
-			text = true,
-		}, vim.schedule_wrap(function(fetch)
-			if fetch.code ~= 0 then
-				vim.notify("Review: " .. vim.trim(fetch.stderr), vim.log.levels.ERROR)
-				return
-			end
-			review()
-		end))
 	end))
 end
 
 vim.api.nvim_create_user_command("Review", function(opts)
 	local mode = opts.fargs[1] or "pr"
-	if (mode ~= "local" and mode ~= "branch" and mode ~= "pr") or (mode ~= "branch" and opts.fargs[2]) or #opts.fargs > 2 then
-		vim.notify("Usage: Review [pr|local|branch [base_branch]]", vim.log.levels.ERROR)
+	local max_args = mode == "branch" and 2 or 1
+	if not vim.tbl_contains({ "pr", "local", "branch" }, mode) or #opts.fargs > max_args then
+		review_error("Usage: Review [pr|local|branch [base_branch]]")
 		return
 	end
 
@@ -118,35 +103,21 @@ vim.api.nvim_create_user_command("Review", function(opts)
 	local cwd = filename ~= "" and vim.fn.filereadable(filename) == 1 and vim.fs.dirname(filename) or vim.fn.getcwd()
 	local root, err = git(cwd, { "rev-parse", "--show-toplevel" })
 	if not root then
-		vim.notify("Review: " .. err, vim.log.levels.ERROR)
+		review_error(err)
 		return
 	end
 	if mode == "pr" then
 		review_pr(root)
-		return
-	end
-
-	local base = "HEAD"
-	if mode == "branch" then
+	elseif mode == "local" then
+		review_base("HEAD")
+	else
 		local branch = opts.fargs[2] or default_branch(root)
 		if not branch then
-			vim.notify("Review: no default branch; use :Review branch <base_branch>", vim.log.levels.ERROR)
-			return
-		end
-		local revision
-		revision, err = git(root, { "rev-parse", "--verify", "--end-of-options", branch .. "^{commit}" })
-		if revision then
-			base, err = git(root, { "merge-base", "HEAD", revision })
+			review_error("no default branch; use :Review branch <base_branch>")
 		else
-			base = nil
-		end
-		if not base then
-			vim.notify("Review: " .. err, vim.log.levels.ERROR)
-			return
+			review_commits(root, "HEAD", branch)
 		end
 	end
-
-	review_base(base)
 end, {
 	nargs = "*",
 	desc = "Review PR, local, or branch changes",
