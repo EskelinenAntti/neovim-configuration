@@ -38,16 +38,25 @@ local function review_pr(root)
 		return
 	end
 
-	vim.system({ "gh", "pr", "view", "--json", "baseRefOid", "--jq", ".baseRefOid" }, {
-		cwd = root,
-		text = true,
-	}, vim.schedule_wrap(function(result)
-		if result.code ~= 0 then
-			review_error(vim.trim(result.stderr))
-			return
-		end
-		review_base(vim.trim(result.stdout))
-	end))
+	vim.system(
+		{ "gh", "pr", "view", "--json", "baseRefOid", "--jq", ".baseRefOid" },
+		{
+			cwd = root,
+			text = true,
+		},
+		vim.schedule_wrap(function(result)
+			if result.code ~= 0 then
+				review_error(vim.trim(result.stderr))
+				return
+			end
+			local base, err = git(root, { "merge-base", "HEAD", vim.trim(result.stdout) })
+			if not base then
+				review_error(err)
+				return
+			end
+			review_base(base)
+		end)
+	)
 end
 
 vim.api.nvim_create_user_command("Review", function(opts)
