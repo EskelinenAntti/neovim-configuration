@@ -59,4 +59,12 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
+vim.lsp.config("metals", {
+	settings = {
+		metals = {
+			autoImportBuilds = "all",
+		},
+	},
+})
+
 vim.lsp.enable(language_servers)
