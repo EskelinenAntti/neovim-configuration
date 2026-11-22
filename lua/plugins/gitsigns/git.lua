@@ -26,4 +26,22 @@ return {
 	merge_base = function(root, left, right)
 		return run(root, { "merge-base", left, right })
 	end,
+	---@param root string
+	---@return string?, string?
+	branch_base = function(root)
+		local origin_head = run(root, { "symbolic-ref", "refs/remotes/origin/HEAD" })
+		local default_branch = origin_head and origin_head:match("^refs/remotes/origin/(.+)$")
+		local candidates = default_branch and { default_branch } or { "main", "master" }
+		for _, branch in ipairs(candidates) do
+			local ref = "refs/heads/" .. branch
+			if run(root, { "show-ref", "--verify", "--quiet", ref }) then
+				local base, err = run(root, { "merge-base", "HEAD", ref })
+				if err == "" then
+					err = "HEAD and " .. branch .. " have no common ancestor."
+				end
+				return base, err
+			end
+		end
+		return nil, "Could not find a local default branch."
+	end,
 }

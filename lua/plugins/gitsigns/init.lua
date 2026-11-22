@@ -48,29 +48,40 @@ local function review_against_pr(repository)
 end
 
 ---@param root string
+local function review_against_branch(root)
+	local base, err = git.branch_base(root)
+	if not base then
+		notify(err)
+		return
+	end
+	review_against_commit(base)
+end
+
+---@param root string
 local function review(root)
-	gh.pr_view(root, function(base_oid, gh_err)
-		if not base_oid or gh_err then
-			if gh_err and gh_err:find("no pull requests found", 1, true) then
-				review_against_commit("HEAD")
-			else
-				notify(gh_err)
+	gh.pr_view(root, function(base_oid)
+		if base_oid and base_oid ~= "" then
+			local base = git.merge_base(root, "HEAD", base_oid)
+			if base then
+				review_against_commit(base)
+				return
 			end
+		end
+
+		local base = git.branch_base(root)
+		if base then
+			review_against_commit(base)
 			return
 		end
-		local base, err = git.merge_base(root, "HEAD", base_oid)
-		if not base or err then
-			notify(err)
-			return
-		end
-		review_against_commit(base)
+
+		review_against_commit("HEAD")
 	end)
 end
 
 vim.api.nvim_create_user_command("Review", function(opts)
 	local mode = opts.fargs[1]
-	if mode and mode ~= "pr" and mode ~= "local" then
-		notify("Usage: Review [local|pr]")
+	if mode and mode ~= "pr" and mode ~= "branch" and mode ~= "local" then
+		notify("Usage: Review [pr|branch|local]")
 		return
 	end
 
@@ -83,6 +94,8 @@ vim.api.nvim_create_user_command("Review", function(opts)
 	end
 	if mode == "pr" then
 		review_against_pr(root)
+	elseif mode == "branch" then
+		review_against_branch(root)
 	elseif mode == "local" then
 		review_against_commit("HEAD")
 	else
@@ -90,5 +103,10 @@ vim.api.nvim_create_user_command("Review", function(opts)
 	end
 end, {
 	nargs = "?",
-	desc = "Review local or PR changes",
+	desc = "Review PR, branch, or local changes",
+	complete = function(arglead)
+		return vim.tbl_filter(function(mode)
+			return vim.startswith(mode, arglead)
+		end, { "pr", "branch", "local" })
+	end,
 })

@@ -1,8 +1,10 @@
-assert(vim.fn.executable("gh") == 1, "gh cli not found")
-
 return {
 	---@type fun(repository: string, callback: fun(base_oid: string?, err: string?))
 	pr_view = function(repository, callback)
+		if vim.fn.executable("gh") ~= 1 then
+			callback(nil, "gh cli not found")
+			return
+		end
 		vim.system(
 			{ "gh", "pr", "view", "--json", "baseRefOid", "--jq", ".baseRefOid" },
 			{
