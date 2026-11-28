@@ -1,6 +1,4 @@
 vim.g.mapleader = " "
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 0
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
@@ -17,7 +15,6 @@ vim.opt.hlsearch = false
 vim.opt.list = true
 vim.opt.listchars:append({ trail = "_", tab = "  " })
 vim.jumpoptions = "stack"
-vim.opt.autoread = true
 
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')

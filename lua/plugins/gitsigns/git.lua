@@ -13,19 +13,21 @@ local function run(cwd, args)
 	return nil, vim.trim(result.stderr)
 end
 
+---@param root string
+---@param left string
+---@param right string
+---@return string?, string?
+local function merge_base(root, left, right)
+	return run(root, { "merge-base", left, right })
+end
+
 return {
 	---@param cwd string
 	---@return string?, string?
 	rev_parse = function(cwd)
 		return run(cwd, { "rev-parse", "--show-toplevel" })
 	end,
-	---@param root string
-	---@param left string
-	---@param right string
-	---@return string?, string?
-	merge_base = function(root, left, right)
-		return run(root, { "merge-base", left, right })
-	end,
+	merge_base = merge_base,
 	---@param root string
 	---@return string?, string?
 	branch_base = function(root)
@@ -35,7 +37,7 @@ return {
 		for _, branch in ipairs(candidates) do
 			local ref = "refs/heads/" .. branch
 			if run(root, { "show-ref", "--verify", "--quiet", ref }) then
-				local base, err = run(root, { "merge-base", "HEAD", ref })
+				local base, err = merge_base(root, "HEAD", ref)
 				if err == "" then
 					err = "HEAD and " .. branch .. " have no common ancestor."
 				end
