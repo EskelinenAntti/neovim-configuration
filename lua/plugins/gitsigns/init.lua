@@ -5,8 +5,9 @@ gitsigns.setup({
 	attach_to_untracked = true,
 })
 
-vim.keymap.set("n", "<leader>g", gitsigns.preview_hunk_inline)
-vim.keymap.set("n", "<leader>G", gitsigns.reset_hunk, { desc = "Reset hunk" })
+vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk_inline, { desc = "Preview hunk" })
+vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Reset hunk" })
+vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { desc = "Diff file against base" })
 
 local git = require("plugins.gitsigns.git")
 local gh = require("plugins.gitsigns.gh")
